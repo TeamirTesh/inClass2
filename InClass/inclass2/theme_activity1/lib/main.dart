@@ -68,34 +68,53 @@ class _RunMyAppState extends State<RunMyApp> {
 
               const SizedBox(height: 20),
 
-              const Text('Choose the Theme:', style: TextStyle(fontSize: 16)),
-              const SizedBox(height: 10),
-
-              // Task 4: Dynamic icons — Sun in light mode, Moon in dark mode
-              Icon(
-                Theme.of(context).brightness == Brightness.dark
-                    ? Icons.nightlight_round
-                    : Icons.wb_sunny,
-                size: 48,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(height: 10),
-
-              // Task 2: Single Switch (value = is dark?, onChanged passes boolean)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Dark mode',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  Switch(
-                    value: _themeMode == ThemeMode.dark,
-                    onChanged: (isDark) {
-                      changeTheme(isDark ? ThemeMode.dark : ThemeMode.light);
-                    },
-                  ),
-                ],
+              // Container for theme controls — background adapts to light/dark
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Choose the Theme:',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ) ?? TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface),
+                    ),
+                    const SizedBox(height: 10),
+                    // Task 4: Dynamic icons — Sun in light mode, Moon in dark mode
+                    Icon(
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Icons.nightlight_round
+                          : Icons.wb_sunny,
+                      size: 48,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(height: 10),
+                    // Task 2: Single Switch — "Dark mode" label uses theme color for visibility
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Dark mode',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                        ),
+                        Switch(
+                          value: _themeMode == ThemeMode.dark,
+                          onChanged: (isDark) {
+                            changeTheme(isDark ? ThemeMode.dark : ThemeMode.light);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
